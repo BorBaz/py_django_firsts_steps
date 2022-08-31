@@ -1,14 +1,22 @@
+from django import template
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.template import loader
 
 from polls.models import Question
+
+VIEW_POLLS_INDEX = '/polls/index.html'
 
 
 def index(request):
     # displays the latest 5 poll questions in the system, separated by commas, according to publication date
     latest_questions = Question.objects.order_by('-pub_date')[:5]
-    output = ', '.join([question.question_text for question in latest_questions])
-    return HttpResponse(output)
+    template_view = loader.get_template('%s' % VIEW_POLLS_INDEX)
+
+    context = {
+        'latest_questions': latest_questions,
+    }
+
+    return HttpResponse(template_view.render(context, request))
 
 
 def detail(request, question_id):
