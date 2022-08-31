@@ -1,10 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from polls.models import Question
 
-# Create your views here.
+
 def index(request):
-    return HttpResponse("Hola, mundo. Estás en la app de polls (no me acuerdo como se dice polls en ingles)")
+    # displays the latest 5 poll questions in the system, separated by commas, according to publication date
+    latest_questions = Question.objects.order_by('-pub_date')[:5]
+    output = ', '.join([question.question_text for question in latest_questions])
+    return HttpResponse(output)
 
 
 def detail(request, question_id):
