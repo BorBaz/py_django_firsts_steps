@@ -4,7 +4,7 @@ from django.template import loader
 
 from polls.models import Question
 
-VIEW_POLLS_INDEX = '/polls/index.html'
+VIEW_POLLS_INDEX = 'polls/index.html'
 
 
 def index(request):
